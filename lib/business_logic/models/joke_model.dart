@@ -2,8 +2,8 @@ import 'dart:convert';
 
 class JokeModel {
   final String content;
-  final bool isRead;
-  final bool isFunny;
+  late bool isRead;
+  late bool isFunny;
   JokeModel({
     required this.content,
     required this.isRead,

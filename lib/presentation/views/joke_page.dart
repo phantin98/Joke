@@ -37,22 +37,32 @@ class _JokePageState extends State<JokePage> {
     super.initState();
     //init data
     _jokes = initData();
-    // _content = _jokes.first.content;
     _currentJoke = _jokes[_index];
   }
 
-  updateContent() {
+  // Update joke after user press Funny or not Funny
+  updateJoke({required bool isFunny}) {
+    //update vote
+    updateVote(_index, isFunny);
     // check index with length list
     if (_index >= _jokes.length - 1) {
       //show dialog message
       DialogUtil.alert(context, errMessage);
     } else {
-      //update content
+      //update current Joke
       setState(() {
         _index++;
         _currentJoke = _jokes[_index];
       });
     }
+  }
+
+  // Update vote
+  updateVote(int index, bool isFunny) {
+    // update is Read
+    _jokes[index].isRead = true;
+    // update Funny
+    _jokes[index].isFunny = isFunny;
   }
 
   List<JokeModel> initData() {
@@ -217,10 +227,11 @@ class _JokePageState extends State<JokePage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          // btn Funny
           Expanded(
             child: elevatedButton(
                 onPressed: () {
-                  updateContent();
+                  updateJoke(isFunny: true);
                 },
                 backgroundColor: AppTheme.blue1,
                 child: Text(
@@ -229,10 +240,12 @@ class _JokePageState extends State<JokePage> {
                 )),
           ),
           const SizedBox(width: 20),
+
+          // btn is not funny
           Expanded(
             child: elevatedButton(
                 onPressed: () {
-                  updateContent();
+                  updateJoke(isFunny: false);
                 },
                 child: Text(
                   _txtBtn2,
